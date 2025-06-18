@@ -4,6 +4,24 @@ The GitHub MCP Server is a [Model Context Protocol (MCP)](https://modelcontextpr
 server that provides seamless integration with GitHub APIs, enabling advanced
 automation and interaction capabilities for developers and tools.
 
+## Multi-User HTTP Mode (Recommended)
+
+Multi-user HTTP mode is the recommended way to run the GitHub MCP Server for secure, scalable, and multi-tenant deployments.
+
+Start the server with:
+```bash
+./github-mcp-server multi-user --port 8080 --toolsets=repos,users,pull_requests
+```
+
+or with Docker:
+```bash
+docker run -i --rm -p 8080:8080 ghcr.io/github/github-mcp-server multi-user --port 8080 --toolsets=repos,users,pull_requests
+```
+
+Each HTTP request must include a GitHub token in the `Authorization` header.
+
+> See the [Multi-User HTTP Mode (Experimental)](#multi-user-http-mode-experimental) section below for more details.
+
 ## TrueFoundry Fork
 
 This is a fork of the original GitHub MCP Server by [TrueFoundry](https://www.truefoundry.com/).

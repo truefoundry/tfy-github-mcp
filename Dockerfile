@@ -25,4 +25,4 @@ COPY --from=build /bin/github-mcp-server .
 # Set the entrypoint to the server binary
 ENTRYPOINT ["/server/github-mcp-server"]
 # Default arguments for ENTRYPOINT
-CMD ["stdio"]
+CMD ["multi-user", "--port", "8080", "--toolsets=repos,users,pull_requests"]
