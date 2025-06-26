@@ -15,6 +15,9 @@ The following tool names have been updated for better clarity and consistency:
 - `add_pull_request_review_comment_to_pending_review` → `add_review_comment_to_pending_review`
 - `create_and_submit_pull_request_review` → `submit_pull_request_review`
 
+Added the following toolsets:
+- `releases` - Release-related tools (create, list, update, delete releases)
+
 [![Install with Docker in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=github&inputs=%5B%7B%22id%22%3A%22github_token%22%2C%22type%22%3A%22promptString%22%2C%22description%22%3A%22GitHub%20Personal%20Access%20Token%22%2C%22password%22%3Atrue%7D%5D&config=%7B%22command%22%3A%22docker%22%2C%22args%22%3A%5B%22run%22%2C%22-i%22%2C%22--rm%22%2C%22-e%22%2C%22GITHUB_PERSONAL_ACCESS_TOKEN%22%2C%22ghcr.io%2Fgithub%2Fgithub-mcp-server%22%5D%2C%22env%22%3A%7B%22GITHUB_PERSONAL_ACCESS_TOKEN%22%3A%22%24%7Binput%3Agithub_token%7D%22%7D%7D) [![Install with Docker in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_Server-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=github&inputs=%5B%7B%22id%22%3A%22github_token%22%2C%22type%22%3A%22promptString%22%2C%22description%22%3A%22GitHub%20Personal%20Access%20Token%22%2C%22password%22%3Atrue%7D%5D&config=%7B%22command%22%3A%22docker%22%2C%22args%22%3A%5B%22run%22%2C%22-i%22%2C%22--rm%22%2C%22-e%22%2C%22GITHUB_PERSONAL_ACCESS_TOKEN%22%2C%22ghcr.io%2Fgithub%2Fgithub-mcp-server%22%5D%2C%22env%22%3A%7B%22GITHUB_PERSONAL_ACCESS_TOKEN%22%3A%22%24%7Binput%3Agithub_token%7D%22%7D%7D&quality=insiders)
 
 ## Use Cases
@@ -163,6 +166,7 @@ The following sets of tools are available (all are on by default):
 | `users`                 | Anything relating to GitHub Users                             |
 | `pull_requests`         | Pull request operations (create, merge, review)               |
 | `code_security`         | Code scanning alerts and security features                    |
+| `releases`              | Release-related tools (create, list, update, delete releases) |
 | `experiments`           | Experimental features (not considered stable)                 |
 
 #### Specifying Toolsets
@@ -552,6 +556,74 @@ export GITHUB_MCP_TOOL_ADD_ISSUE_COMMENT_DESCRIPTION="an alternative description
   - `order`: Sort order (string, optional)
   - `page`: Page number (number, optional)
   - `perPage`: Results per page (number, optional)
+
+### Releases
+
+- **list_releases** - List releases for a repository
+
+  - `owner`: Repository owner (string, required)
+  - `repo`: Repository name (string, required)
+  - `page`: Page number (number, optional)
+  - `perPage`: Results per page (number, optional)
+
+- **create_release** - Create a new release
+
+  - `owner`: Repository owner (string, required)
+  - `repo`: Repository name (string, required)
+  - `tag_name`: The name of the tag (string, required)
+  - `target_commitish`: Specifies the commitish value that determines where the Git tag is created from (string, optional)
+  - `name`: The name of the release (string, optional)
+  - `body`: Text describing the contents of the tag (string, optional)
+  - `draft`: true to create a draft (unpublished) release, false to create a published one (boolean, optional)
+  - `prerelease`: true to identify the release as a prerelease, false to identify the release as a full release (boolean, optional)
+  - `discussion_category_name`: If specified, a discussion of the specified category is created and linked to the release (string, optional)
+  - `generate_release_notes`: Whether to automatically generate the name and body for this release (boolean, optional)
+  - `make_latest`: Specifies whether this release should be set as the latest release for the repository (string, optional)
+
+- **get_latest_release** - Get the latest published full release for the repository
+
+  - `owner`: Repository owner (string, required)
+  - `repo`: Repository name (string, required)
+
+- **get_release_by_tag** - Get a published release with the specified tag
+
+  - `owner`: Repository owner (string, required)
+  - `repo`: Repository name (string, required)
+  - `tag`: Tag name (string, required)
+
+- **get_release** - Get a specific release
+
+  - `owner`: Repository owner (string, required)
+  - `repo`: Repository name (string, required)
+  - `release_id`: The unique identifier of the release (number, required)
+
+- **update_release** - Update a release
+
+  - `owner`: Repository owner (string, required)
+  - `repo`: Repository name (string, required)
+  - `release_id`: The unique identifier of the release (number, required)
+  - `tag_name`: The name of the tag (string, optional)
+  - `target_commitish`: Specifies the commitish value that determines where the Git tag is created from (string, optional)
+  - `name`: The name of the release (string, optional)
+  - `body`: Text describing the contents of the tag (string, optional)
+  - `draft`: true makes the release a draft, and false publishes the release (boolean, optional)
+  - `prerelease`: true to identify the release as a prerelease, false to identify the release as a full release (boolean, optional)
+  - `discussion_category_name`: If specified, a discussion of the specified category is created and linked to the release (string, optional)
+  - `make_latest`: Specifies whether this release should be set as the latest release for the repository (string, optional)
+
+- **delete_release** - Delete a release
+
+  - `owner`: Repository owner (string, required)
+  - `repo`: Repository name (string, required)
+  - `release_id`: The unique identifier of the release (number, required)
+
+- **generate_release_notes** - Generate release notes content for a release
+
+  - `owner`: Repository owner (string, required)
+  - `repo`: Repository name (string, required)
+  - `tag_name`: The tag name for the release (string, required)
+  - `target_commitish`: Specifies the commitish value that will be the target for the release's tag (string, optional)
+  - `previous_tag_name`: The name of the previous tag to use as the starting point for the release notes (string, optional)
 
 ### Users
 
