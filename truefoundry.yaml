@@ -6,7 +6,7 @@ image:
     type: dockerfile
     command: >-
       ./github-mcp-server multi-user --port 8080
-      --toolsets=repos,users,pull_requests
+      --toolsets=repos,users,pull_requests,releases
     dockerfile_path: ./Dockerfile
     build_context_path: ./
   build_source:

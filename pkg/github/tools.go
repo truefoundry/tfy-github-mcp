@@ -103,6 +103,20 @@ func DefaultToolsetGroup(readOnly bool, getClient GetClientFn, getGQLClient GetG
 			toolsets.NewServerTool(ManageRepositoryNotificationSubscription(getClient, t)),
 		)
 
+	releases := toolsets.NewToolset("releases", "GitHub Releases related tools").
+		AddReadTools(
+			toolsets.NewServerTool(ListReleases(getClient, t)),
+			toolsets.NewServerTool(GetLatestRelease(getClient, t)),
+			toolsets.NewServerTool(GetReleaseByTag(getClient, t)),
+			toolsets.NewServerTool(GetRelease(getClient, t)),
+			toolsets.NewServerTool(GenerateReleaseNotes(getClient, t)),
+		).
+		AddWriteTools(
+			toolsets.NewServerTool(CreateRelease(getClient, t)),
+			toolsets.NewServerTool(UpdateRelease(getClient, t)),
+			toolsets.NewServerTool(DeleteRelease(getClient, t)),
+		)
+
 	// Keep experiments alive so the system doesn't error out when it's always enabled
 	experiments := toolsets.NewToolset("experiments", "Experimental features that are not considered stable yet")
 
@@ -114,6 +128,7 @@ func DefaultToolsetGroup(readOnly bool, getClient GetClientFn, getGQLClient GetG
 	tsg.AddToolset(codeSecurity)
 	tsg.AddToolset(secretProtection)
 	tsg.AddToolset(notifications)
+	tsg.AddToolset(releases)
 	tsg.AddToolset(experiments)
 
 	return tsg
